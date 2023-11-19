@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://ijotqkraxihe"]
+
+[ext_resource type="Texture2D" uid="uid://c55pwu5d0bhvs" path="res://icon.svg" id="1_5xbls"]
+[ext_resource type="Script" path="res://scripts/classes/card_data.gd" id="1_gd7x7"]
+
+[resource]
+script = ExtResource("1_gd7x7")
+image = ExtResource("1_5xbls")
+name = &"test"
