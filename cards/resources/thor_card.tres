@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://caq83f53fk0m8"]
 
-[ext_resource type="Texture2D" uid="uid://c55pwu5d0bhvs" path="res://icon.svg" id="1_00reo"]
-[ext_resource type="Script" path="res://scripts/classes/card_data.gd" id="1_pqapy"]
+[ext_resource type="Texture2D" uid="uid://rqlqwg63digw" path="res://cards/sprites/thor.png" id="1_m7a1a"]
+[ext_resource type="Script" path="res://scripts/classes/card_data.gd" id="2_kytbc"]
 
 [resource]
-script = ExtResource("1_pqapy")
-image = ExtResource("1_00reo")
-name = &"apple"
+script = ExtResource("2_kytbc")
+image = ExtResource("1_m7a1a")
+name = &"thor"
