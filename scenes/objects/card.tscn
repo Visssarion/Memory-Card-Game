@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://rrsa13r387jk"]
+[gd_scene load_steps=3 format=3 uid="uid://rrsa13r387jk"]
+
+[ext_resource type="Script" path="res://scripts/classes/card.gd" id="1_e5acn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xajje"]
 
 [node name="Card" type="Node2D"]
+script = ExtResource("1_e5acn")
 
 [node name="Area2D" type="Area2D" parent="."]
 
