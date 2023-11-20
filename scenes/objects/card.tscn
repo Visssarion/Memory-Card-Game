@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://rrsa13r387jk"]
+[gd_scene load_steps=4 format=3 uid="uid://rrsa13r387jk"]
 
 [ext_resource type="Script" path="res://scripts/classes/card.gd" id="1_e5acn"]
 [ext_resource type="Texture2D" uid="uid://xf2nlnshiwh3" path="res://cards/sprites/CardFace.png" id="2_486nd"]
-[ext_resource type="Texture2D" uid="uid://rqlqwg63digw" path="res://cards/sprites/thor.png" id="3_5x8s2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xajje"]
 size = Vector2(512, 512)
@@ -22,6 +21,5 @@ debug_color = Color(0.933333, 0, 0.647059, 0.419608)
 texture = ExtResource("2_486nd")
 
 [node name="Image" type="Sprite2D" parent="."]
-texture = ExtResource("3_5x8s2")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
