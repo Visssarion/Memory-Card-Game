@@ -21,9 +21,17 @@ func _on_area_2d_input_event(viewport, event, shape_idx):
 func _on_click():
 	pass
 
+var opened = false
+
 ## Activates when mouse button is released (if still on card)
 func _on_click_confirm():
 	clicked.emit(self)
+	if opened:
+		$AnimationPlayer.play("card_close")
+	else:
+		$AnimationPlayer.play("card_open")
+	opened = !opened
+	
 
 
 func _on_area_2d_mouse_entered():
