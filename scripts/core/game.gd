@@ -9,8 +9,8 @@ var cards_on_board: Array[Card]  # Private var which holds current cards on the 
 
 func _ready():
 	## Duplicate cards
-	card_theme += card_theme;  # Make a set of cards (Duplicate them)
-	card_theme.shuffle();  # Shuffle cards
+	card_theme += card_theme  # Make a set of cards (Duplicate them)
+	card_theme.shuffle()  # Shuffle cards
 	
 	## Instantiate cards to game board from resources
 	for card in card_theme:  # For each card in our Theme
@@ -21,7 +21,7 @@ func _ready():
 	const starting_pos: Vector2 = Vector2(0, 0)
 	for row in range(rows):  # iterate over imaginary rows
 		for col in range(rows):  # Iterate over imaginary cols
-			var card_index = row*rows+col;  # Determine current Array index
+			var card_index = row*rows+col  # Determine current Array index
 			var card = cards_on_board[card_index]  # Obtain card from the current board
 			card.card_data = card_theme[card_index]  # Set the card_date for the card
 			card.position = Vector2((512+15)*row, (512+15)*col)  # Set position of the card
