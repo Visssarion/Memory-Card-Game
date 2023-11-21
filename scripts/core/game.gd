@@ -1,6 +1,8 @@
 ## 
 extends Node
 
+class_name Game
+
 @export_group("Board Settings")
 @export_range(2, 16, 2) var rows: int = 2  # Dynamically set the amount of cards on the board
 @export var card_prefeb: PackedScene  # Holds Card prefab
@@ -17,34 +19,56 @@ var cards_on_board: Array[Card]  # Private var which holds current cards on the 
 var selected_card_a: Card  # Player selected first choice
 var selected_card_b: Card  # Player selected second choice
 
-# Here we determine the winner of each result phase
-func determine_win():
-	if selected_card_a.card_data.name != selected_card_b.card_data.name:
-		selected_card_a.opened = false  # Close cards incase of invalid match
-		selected_card_b.opened = false  # Close cards incase of invalid match
-	else:
+
+# Here we determine the winner of each result phase, runs before reseting the gameloop
+func determine_win() -> void:
+	var timeout = 3  # Default timeout for a loss
+	var is_winner = false  # Winner indicator
+	# If we have a match, we obviously win
+	if selected_card_a.card_data.name == selected_card_b.card_data.name:
+		timeout = 1  # Reduce timer to keep the player engadget
+		is_winner = true  # Trigger to indicate we have a winner
 		print('WINNER')
 		# Destroy cards? TODO
+
+	var timer = get_timer(timeout)  # Obtain timeout component
+	timer.timeout.connect(func(): set_result_state(is_winner))  # Connect the finalize method to the timeout
+	timer.start()  # Start the timeout counting down to execute the method hold by the timer
+
+# Check result state, reset gameloop
+func set_result_state(winner) -> void:
+	# Any other gamephase then PICK_B should not trigger this method
+	if gamephase != gamephases.RESULT: return
+	# Reset gamephase to PICK_A so the user is able to make a new selection
+	gamephase = gamephases.PICK_A
+	# If the current round was not a win, flip the cards back facedown
+	if not winner:
+		selected_card_a.opened = false  # Close cards incase of invalid match
+		selected_card_b.opened = false  # Close cards incase of invalid match
+
+func get_timer(wait_time: int = 5) -> Timer:
+	var timer = get_node("setTimout")  # Get setTimeout node (Timer)
+	timer.autostart = true  # Make sure it automatically starts
+	timer.one_shot = false  # The timer is allowed to run more then just once
+	timer.wait_time = wait_time  # Set the time before the timer executes its method
+	return timer  # Return the timer element
 
 # Method which executes after card has been clicked
 func on_click(card):
 	# Cancel click if card is already open, we don't want to progress the gamephase
-	if card.opened: return
+	if card.opened or gamephase == gamephases.RESULT: return
 
 	# Check current gamestate
 	if (gamephase == gamephases.PICK_A):
 		gamephase = gamephases.PICK_B  # Change current gamestate to the next one
-		card.opened = true
-		print("YOMAMAMAWASHERE")
+		selected_card_a = card  # The current card clicked will be Card A.
+		card.opened = true  # Flip the card face up
 	# Check current gamestate
 	elif (gamephase == gamephases.PICK_B):
 		gamephase = gamephases.RESULT  # Change current gamestate to the next one
-		card.opened = true
-		print("YODADDYWASHERE")
-	# Check current gamestate
-	elif (gamephase == gamephases.RESULT):  # Change current gamestate to the next one
-		gamephase = gamephases.PICK_A
-		print(card)
+		selected_card_b = card  # The current card clicked will be Card B.
+		card.opened = true  # Flip the card face up
+		determine_win()  # Check for a winner, execute timer to flip gamestate back to PICK_A
 
 func _ready():
 	## Duplicate cards
