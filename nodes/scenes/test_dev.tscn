@@ -1,13 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci84s7tkqnanl"]
+[gd_scene load_steps=6 format=3 uid="uid://ci84s7tkqnanl"]
 
 [ext_resource type="Script" path="res://scripts/core/game.gd" id="1_2w54b"]
 [ext_resource type="Resource" uid="uid://caq83f53fk0m8" path="res://cards/resources/thor_card.tres" id="2_gaj7e"]
 [ext_resource type="Resource" uid="uid://ijotqkraxihe" path="res://cards/resources/test_card.tres" id="3_s3or7"]
-[ext_resource type="PackedScene" uid="uid://rrsa13r387jk" path="res://notes/objects/card.tscn" id="4_7br44"]
+[ext_resource type="PackedScene" uid="uid://dutrwwhtuyb38" path="res://nodes/objects/card.tscn" id="4_7br44"]
+[ext_resource type="PackedScene" uid="uid://c4pvs8d3svkwb" path="res://nodes/objects/game_camera_2d.tscn" id="5_f0b11"]
 
 [node name="test_dev" type="Node2D"]
 
 [node name="GAMECORE" type="Node2D" parent="."]
 script = ExtResource("1_2w54b")
-card_theme = Array[Resource("res://scripts/classes/card_data.gd")]([ExtResource("2_gaj7e"), ExtResource("3_s3or7")])
+rows = 4
 card_prefeb = ExtResource("4_7br44")
+card_theme = Array[Resource("res://scripts/classes/card_data.gd")]([ExtResource("2_gaj7e"), ExtResource("3_s3or7"), ExtResource("3_s3or7"), ExtResource("3_s3or7"), ExtResource("2_gaj7e"), ExtResource("2_gaj7e"), ExtResource("2_gaj7e"), ExtResource("3_s3or7")])
+
+[node name="GameCamera2D" parent="GAMECORE" instance=ExtResource("5_f0b11")]
