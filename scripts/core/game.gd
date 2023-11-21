@@ -5,7 +5,16 @@ extends Node
 @export var card_theme: Array[CardData]  # Holds card data such as image and name
 @export var card_prefeb: PackedScene  # Holds Card prefab
 
+enum gamestates {PICK_A, PICK_B, RESULT}  # Available gamestates
+var gamestate: gamestates  # Current state of the gameloop
+
 var cards_on_board: Array[Card]  # Private var which holds current cards on the board
+var selected_card_a: Card  # Player selected first choice
+var selected_card_b: Card  # Player selected second choice
+
+func on_click(card):
+	print("YOMAMAMAWASHERE")
+	print(card)
 
 func _ready():
 	## Duplicate cards
@@ -26,4 +35,5 @@ func _ready():
 			card.card_data = card_theme[card_index]  # Set the card_date for the card
 			card.position = Vector2((512+15)*row, (512+15)*col)  # Set position of the card
 			card.update_face()  # Update the face of the card
+			card.clicked.connect(on_click)  # Execute card click
 			add_child(card)  # Spawn the card in the world
