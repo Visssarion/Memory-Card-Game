@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Memory Card Game"
+run/main_scene="res://notes/scenes/test_dev.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="Memory Card Game"
 
 [rendering]
 
