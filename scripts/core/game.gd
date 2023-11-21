@@ -19,30 +19,35 @@ var cards_on_board: Array[Card]  # Private var which holds current cards on the 
 var selected_card_a: Card  # Player selected first choice
 var selected_card_b: Card  # Player selected second choice
 
+# This method finalizes the game, and throws either in endless mode new cards on the board, or in
+# story 
+func finalize_game() -> void:
+	var opened_all = cards_on_board.map(func(card): return card.opened)
+	if not opened_all.find(false):
+		print("CHANGING SCENE, BOARD HAS BEEN CLEARED, OR ADD NEW CARDS")
 
 # Here we determine the winner of each result phase, runs before reseting the gameloop
 func determine_win() -> void:
 	var timeout = 3  # Default timeout for a loss
-	var is_winner = false  # Winner indicator
 	# If we have a match, we obviously win
 	if selected_card_a.card_data.name == selected_card_b.card_data.name:
 		timeout = 1  # Reduce timer to keep the player engadget
-		is_winner = true  # Trigger to indicate we have a winner
 		print('WINNER')
 		# Destroy cards? TODO
+		finalize_game()
 
 	var timer = get_timer(timeout)  # Obtain timeout component
-	timer.timeout.connect(func(): set_result_state(is_winner))  # Connect the finalize method to the timeout
+	timer.timeout.connect(set_result_state)  # Connect the finalize method to the timeout
 	timer.start()  # Start the timeout counting down to execute the method hold by the timer
 
 # Check result state, reset gameloop
-func set_result_state(winner) -> void:
+func set_result_state() -> void:
 	# Any other gamephase then PICK_B should not trigger this method
 	if gamephase != gamephases.RESULT: return
 	# Reset gamephase to PICK_A so the user is able to make a new selection
 	gamephase = gamephases.PICK_A
 	# If the current round was not a win, flip the cards back facedown
-	if not winner:
+	if selected_card_a.card_data.name != selected_card_b.card_data.name:
 		selected_card_a.opened = false  # Close cards incase of invalid match
 		selected_card_b.opened = false  # Close cards incase of invalid match
 
