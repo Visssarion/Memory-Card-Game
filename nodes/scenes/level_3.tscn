@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4j5pref2n02p"]
+
+[ext_resource type="Script" path="res://scripts/core/game.gd" id="1_fepfg"]
+[ext_resource type="PackedScene" uid="uid://c4pvs8d3svkwb" path="res://nodes/objects/game_camera_2d.tscn" id="2_tqx7y"]
+
+[node name="GAMECORE" type="Node2D"]
+script = ExtResource("1_fepfg")
+gamemode = 0
+
+[node name="GameCamera2D" parent="." instance=ExtResource("2_tqx7y")]
+
+[node name="setTimeout" type="Timer" parent="."]
+wait_time = 5.0

@@ -3,6 +3,10 @@ extends Node
 
 class_name Game
 
+@export_group("Game Settings")
+## Available gamemodes for the current board
+@export var gamemode: GameSettings.gamemodes = GameSettings.gamemodes.ENDLESS
+
 @export_group("Board Settings")
 ## Dynamically set the amount of cards on the board[br]
 ## [br][code]Impacts amount of cols AND rows of the board[/code][br][br]
@@ -43,9 +47,9 @@ func finalize_game() -> void:
 	if len(closed_cards) <= cards_left_for_win:
 		# TODO, Depending on the gamemmode, we change scene, or add cards for endless mode. Has
 		# to be decided.
-		if settings.gamemode == settings.gamemode_story:
+		if settings.gamemode == GameSettings.gamemodes.STORY:
 			print("DOING STORY ...")  # TODO Scene handler
-		elif settings.gamemode == settings.gamemode_endless:
+		elif settings.gamemode == GameSettings.gamemodes.ENDLESS:
 			clear_memory()  # Clear all relevant references
 			generate_game()  # Generate new board / new game
 
@@ -145,7 +149,7 @@ func generate_game():
 	render_game_board()
 
 func _ready():
-	settings = GameSettings.new()
+	settings = GameSettings.new(gamemode)  # instantiate game board settings for this scene
 	$setTimeout.timeout.connect(set_result_state)  # Connects Timer signal to self.class method
 	generate_game()  # Start game
 	$GameCamera2D.update_scale(rows, pixelsize, gridsize)  # Attach camera
