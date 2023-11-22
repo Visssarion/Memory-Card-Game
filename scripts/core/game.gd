@@ -4,7 +4,8 @@ extends Node
 class_name Game
 
 @export_group("Round Settings")
-@export var round_timeout: float = 1.5  # Default timeout for a loss
+@export var loss_timeout: float = 1.5  # Default timeout for a loss
+@export var win_timeout: float = 1.0  # Default timeout for a win
 
 @export_group("Board Settings")
 @export_range(2, 16, 2) var rows: int = 2  # Dynamically set the amount of cards on the board
@@ -40,8 +41,9 @@ func finalize_game() -> void:
 # Here we determine the winner of each result phase, runs before reseting the gameloop
 func determine_win() -> void:
 	# If we have a match, we obviously win
+	var round_timeout = loss_timeout
 	if selected_card_a.card_data.name == selected_card_b.card_data.name:
-		round_timeout = 1  # Reduce timer to keep the player engadget
+		round_timeout = win_timeout  # Reduce timer to keep the player engadget
 		print('WINNER, TODO HERE :eyes:')
 		# Destroy cards? TODO
 		finalize_game()  # Check if the board has been cleared.
