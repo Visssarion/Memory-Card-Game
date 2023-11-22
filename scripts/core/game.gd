@@ -3,22 +3,28 @@ extends Node
 
 class_name Game
 
+@export_group("Round Settings")
+@export var loss_timeout: float = 1.5  # Default timeout for a loss
+@export var win_timeout: float = 1.0  # Default timeout for a win
+
 @export_group("Board Settings")
 @export_range(2, 16, 2) var rows: int = 2  # Dynamically set the amount of cards on the board
-@export var card_prefeb: PackedScene  # Holds Card prefab
 @export var cards_left_for_win: int = 0  # Total amount of cards required on the board in order to win
 
 @export_group("Card Settings")
-@export var card_theme: Array[CardData]  # Holds card data such as image and name
+@export var deck_name: String = "FiftySpaceHorror"  # Card deck name
 @export var pixelsize: int = 512  # Holds pixel size of each card art
 @export var gridsize: int = 15  # Pixel distant within the grid between cards
 
 enum gamephases {PICK_A, PICK_B, RESULT}  # Available gamestates
 var gamephase: gamephases = gamephases.PICK_A  # Current state of the gameloop
 
+var deck: Deck
+var card_theme: Array[CardData]  # Holds card data such as image and name
 var cards_on_board: Array[Card]  # Private var which holds current cards on the board
 var selected_card_a: Card  # Player selected first choice
 var selected_card_b: Card  # Player selected second choice
+var card_prefeb: PackedScene = load("res://nodes/objects/card.tscn")  # Holds Card prefab
 
 # This method finalizes the game, and throws either in endless mode new cards on the board, or in
 # story 
@@ -34,16 +40,16 @@ func finalize_game() -> void:
 
 # Here we determine the winner of each result phase, runs before reseting the gameloop
 func determine_win() -> void:
-	var timeout = 3  # Default timeout for a loss
 	# If we have a match, we obviously win
+	var round_timeout = loss_timeout
 	if selected_card_a.card_data.name == selected_card_b.card_data.name:
-		timeout = 1  # Reduce timer to keep the player engadget
+		round_timeout = win_timeout  # Reduce timer to keep the player engadget
 		print('WINNER, TODO HERE :eyes:')
 		# Destroy cards? TODO
-		finalize_game()
+		finalize_game()  # Check if the board has been cleared.
 
 	var timer = $setTimeout  # Obtain timeout component
-	timer.wait_time = timeout  # Connect the finalize method to the timeout
+	timer.wait_time = round_timeout  # Connect the finalize method to the timeout
 	timer.start()  # Start the timeout counting down to execute the method hold by the timer
 
 # Check result state, reset gameloop
@@ -75,10 +81,17 @@ func on_click(card):
 		determine_win()  # Check for a winner, execute timer to flip gamestate back to PICK_A
 
 func _ready():
+	# Fetch Deck
+	deck = Deck.new()  # Initialize a new deck
+	deck.deck_name = deck_name  # Set the deck name
+	card_theme = deck.fetch()  # Obtain the deck
+	card_theme.shuffle()  # Pre shuffle the deck
+	card_theme = card_theme.slice(0, (rows*rows) / 2)  # Pick the amount of cards required to fill the board
+
 	## Duplicate cards
 	card_theme += card_theme  # Make a set of cards (Duplicate them)
-	card_theme.shuffle()  # Shuffle cards
-	$setTimeout.timeout.connect(set_result_state)
+	card_theme.shuffle()  # Shuffle cards for the game
+	$setTimeout.timeout.connect(set_result_state)  # Connect setTimeout method with the timer
 
 	## Instantiate cards to game board from resources
 	for card in card_theme:  # For each card in our Theme
