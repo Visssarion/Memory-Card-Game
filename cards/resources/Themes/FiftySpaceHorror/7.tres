@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://cmlabm6a782vo"]
+
+[ext_resource type="Texture2D" uid="uid://bdcmhh1bv782r" path="res://cards/sprites/Themes/FiftySpaceHorror/7.png" id="1_6o1ts"]
+[ext_resource type="Script" path="res://scripts/classes/card_data.gd" id="2_ohxji"]
+
+[resource]
+script = ExtResource("2_ohxji")
+image = ExtResource("1_6o1ts")
+name = &"7-FiftySpaceHorror"
