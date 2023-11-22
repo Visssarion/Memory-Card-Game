@@ -8,9 +8,11 @@ script = ExtResource("1_bb5vw")
 default_resolution = Vector2(1280, 720)
 
 [node name="Icon" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(-575, -293)
 texture = ExtResource("2_rq065")
 
 [node name="Icon2" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(577, 296)
 texture = ExtResource("2_rq065")

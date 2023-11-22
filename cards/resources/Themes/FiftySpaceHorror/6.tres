@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=4 format=3 uid="uid://pu2yhm6p2si1"]
+
+[ext_resource type="Texture2D" uid="uid://bg380deago3mp" path="res://cards/sprites/Themes/FiftySpaceHorror/6.png" id="1_p8t6u"]
+[ext_resource type="Script" path="res://scripts/classes/card_data.gd" id="2_5ki3h"]
+[ext_resource type="Texture2D" uid="uid://xobxescow6s8" path="res://cards/sprites/Themes/FiftySpaceHorror/BACK.png" id="2_n16jm"]
+
+[resource]
+script = ExtResource("2_5ki3h")
+image = ExtResource("1_p8t6u")
+image_back = ExtResource("2_n16jm")
+name = &"6-FiftySpaceHorror-1"
