@@ -4,17 +4,31 @@ extends Node
 class_name Game
 
 @export_group("Round Settings")
-@export var loss_timeout: float = 1.5  # Default timeout for a loss
+## [b]Value for debugging purpose:[/b][br][code]ONLY CHANGE IN DEV MODE[/code][br][br]
+## Cooldown duration after picking wrong card
+@export var loss_timeout: float = 3  # Default timeout for a loss
+## [b]Value for debugging purpose:[/b][br][code]ONLY CHANGE IN DEV MODE[/code][br][br]
+## Cooldown duration after picking right card
 @export var win_timeout: float = 1.0  # Default timeout for a win
 
 @export_group("Board Settings")
+## Dynamically set the amount of cards on the board[br]
+## [br][code]Impacts amount of cols AND rows of the board[/code][br][br]
 @export_range(2, 16, 2) var rows: int = 2  # Dynamically set the amount of cards on the board
+## Total amount of cards required on the board in order to win and move on to the next scene[br]
+## [br][code]When value is 0, all cards need to be matched before next scene can be loaded[/code][br][br]
+## Note: On endless mode, it detemines when new cards will spawn
 @export var cards_left_for_win: int = 0  # Total amount of cards required on the board in order to win
 
 @export_group("Card Settings")
+## The name of the Card deck.[br][br]The name of the deck represents a folder which should be located in[br]
+## [br][code]res://cards/resources/Themes/DECKNAME[/code][br][br]
+## If a card deck doesn't exists, game won't load and throws a print statement
 @export var deck_name: String = "FiftySpaceHorror"  # Card deck name
-@export var pixelsize: int = 512  # Holds pixel size of each card art
-@export var gridsize: int = 15  # Pixel distant within the grid between cards
+## Holds pixel size of each card art[br][br][code]default 512*512[/code]
+@export var pixelsize: int = 512
+## Pixel distant within the grid between cards[br][br][code]default 15px[/code]
+@export var gridsize: int = 15
 
 enum gamephases {PICK_A, PICK_B, RESULT}  # Available gamestates
 var gamephase: gamephases = gamephases.PICK_A  # Current state of the gameloop
@@ -24,7 +38,7 @@ var card_theme: Array[CardData]  # Holds card data such as image and name
 var cards_on_board: Array[Card]  # Private var which holds current cards on the board
 var selected_card_a: Card  # Player selected first choice
 var selected_card_b: Card  # Player selected second choice
-var card_prefeb: PackedScene = load("res://nodes/objects/card.tscn")  # Holds Card prefab
+var card_prefab: PackedScene = load("res://nodes/objects/card.tscn")  # Holds Card prefab
 
 # This method finalizes the game, and throws either in endless mode new cards on the board, or in
 # story 
@@ -95,7 +109,7 @@ func _ready():
 
 	## Instantiate cards to game board from resources
 	for card in card_theme:  # For each card in our Theme
-		var instance: Node2D = card_prefeb.instantiate()  # Intantiate card node
+		var instance: Node2D = card_prefab.instantiate()  # Intantiate card node
 		cards_on_board.append(instance)  # place card on the board
 
 	# Position cards, obtain starting position
