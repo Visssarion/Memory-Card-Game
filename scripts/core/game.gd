@@ -1,4 +1,4 @@
-## 
+## Core logic of each board.
 extends Node
 
 class_name Game
@@ -6,6 +6,7 @@ class_name Game
 @export_group("Board Settings")
 @export_range(2, 16, 2) var rows: int = 2  # Dynamically set the amount of cards on the board
 @export var card_prefeb: PackedScene  # Holds Card prefab
+@export var cards_left_for_win: int = 0  # Total amount of cards required on the board in order to win
 
 @export_group("Card Settings")
 @export var card_theme: Array[CardData]  # Holds card data such as image and name
@@ -22,9 +23,14 @@ var selected_card_b: Card  # Player selected second choice
 # This method finalizes the game, and throws either in endless mode new cards on the board, or in
 # story 
 func finalize_game() -> void:
-	var opened_all = cards_on_board.map(func(card): return card.opened)
-	if not opened_all.find(false):
-		print("CHANGING SCENE, BOARD HAS BEEN CLEARED, OR ADD NEW CARDS")
+	# Look for cards that have not been opened yet. If all cards are opened this should return an
+	# empty Array.
+	var closed_cards = cards_on_board.filter(func(card): return not card.opened)
+	# Check if the array is equal or lower then the amount of cards required on the board.
+	if len(closed_cards) <= cards_left_for_win:
+		# TODO, Depending on the gamemmode, we change scene, or add cards for endless mode. Has
+		# to be decided.
+		print("CHANGING SCENE, BOARD HAS BEEN CLEARED, OR ADD NEW CARDS, TODO HERE :eyes:")
 
 # Here we determine the winner of each result phase, runs before reseting the gameloop
 func determine_win() -> void:
@@ -32,7 +38,7 @@ func determine_win() -> void:
 	# If we have a match, we obviously win
 	if selected_card_a.card_data.name == selected_card_b.card_data.name:
 		timeout = 1  # Reduce timer to keep the player engadget
-		print('WINNER')
+		print('WINNER, TODO HERE :eyes:')
 		# Destroy cards? TODO
 		finalize_game()
 
@@ -86,8 +92,8 @@ func _ready():
 		cards_on_board.append(instance)  # place card on the board
 
 	# Position cards, obtain starting position
-	var spawn_offset: int = rows / 2 * (pixelsize + gridsize) * -1 + pixelsize / 2
-	var starting_pos: Vector2 = Vector2(spawn_offset, spawn_offset)
+	var spawn_offset: int = rows / 2 * (pixelsize + gridsize) * -1 + pixelsize / 2  # wtf,!? Vissa!
+	var starting_pos: Vector2 = Vector2(spawn_offset, spawn_offset)  # Start position of first card
 	for row in range(rows):  # iterate over over rows
 		for col in range(rows):  # Iterate over imaginary cols
 			var card_index = row*rows+col  # Determine current Array index
@@ -97,7 +103,6 @@ func _ready():
 			card.update_face()  # Update the face of the card
 			card.clicked.connect(on_click)  # Execute card click
 			add_child(card)  # Spawn the card in the world
-			print(card.position)
 
 	# Attach camera
 	$GameCamera2D.update_scale(rows, pixelsize, gridsize)
