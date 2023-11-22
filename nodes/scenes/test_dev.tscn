@@ -22,5 +22,5 @@ card_theme = Array[Resource("res://scripts/classes/card_data.gd")]([ExtResource(
 
 [node name="GameCamera2D" parent="GAMECORE" instance=ExtResource("5_f0b11")]
 
-[node name="setTimout" type="Timer" parent="GAMECORE"]
+[node name="setTimeout" type="Timer" parent="GAMECORE"]
 wait_time = 5.0

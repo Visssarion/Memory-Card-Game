@@ -58,7 +58,7 @@ func set_result_state() -> void:
 		selected_card_b.opened = false  # Close cards incase of invalid match
 
 func get_timer(wait_time: int = 5) -> Timer:
-	var timer = get_node("setTimout")  # Get setTimeout node (Timer)
+	var timer = get_node("setTimeout")  # Get setTimeout node (Timer)
 	timer.autostart = true  # Make sure it automatically starts
 	timer.one_shot = false  # The timer is allowed to run more then just once
 	timer.wait_time = wait_time  # Set the time before the timer executes its method
