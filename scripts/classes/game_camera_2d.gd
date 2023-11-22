@@ -11,12 +11,12 @@ var _default_scale : float = 1
 func update_scale(rows: int, pixelsize: int, gridsize: int):
 	var board_size = (pixelsize + gridsize) * rows + out_of_board_pixel_amount
 	_default_scale = default_resolution.y / board_size
-	_on_viewport_size_changed()
+	_update_zoom()
 
 func _ready():
-	get_viewport().size_changed.connect(_on_viewport_size_changed)
+	get_viewport().size_changed.connect(_update_zoom)
 
-func _on_viewport_size_changed():
+func _update_zoom():
 	var viewport_size = get_viewport().get_visible_rect().size
 	# Calculates difference in scale compared to default resolution
 	var viewport_x_scale = viewport_size.x / default_resolution.x

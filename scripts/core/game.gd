@@ -20,7 +20,6 @@ var cards_on_board: Array[Card]  # Private var which holds current cards on the 
 var selected_card_a: Card  # Player selected first choice
 var selected_card_b: Card  # Player selected second choice
 
-
 # This method finalizes the game, and throws either in endless mode new cards on the board, or in
 # story 
 func finalize_game() -> void:
@@ -49,7 +48,6 @@ func determine_win() -> void:
 
 # Check result state, reset gameloop
 func set_result_state() -> void:
-	print("Here")
 	# Any other gamephase then PICK_B should not trigger this method
 	if gamephase != gamephases.RESULT: return
 	# Reset gamephase to PICK_A so the user is able to make a new selection
@@ -96,7 +94,7 @@ func _ready():
 			var card = cards_on_board[card_index]  # Obtain card from the current board
 			card.card_data = card_theme[card_index]  # Set the card_date for the card
 			card.position = Vector2((pixelsize+gridsize)*row, (pixelsize+gridsize)*col) + starting_pos # Set position of the card
-			card.update_face()  # Update the face of the card
+			card.update_visual()  # Update the face of the card
 			card.clicked.connect(on_click)  # Execute card click
 			add_child(card)  # Spawn the card in the world
 

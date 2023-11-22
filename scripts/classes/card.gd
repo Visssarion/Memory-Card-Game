@@ -47,6 +47,6 @@ func _on_area_2d_mouse_entered():
 func _on_area_2d_mouse_exited():
 	pass
 
-func update_face():
+func update_visual():
 	$Image.texture = card_data.image;
 	$BackSide.texture = card_data.image_back;
