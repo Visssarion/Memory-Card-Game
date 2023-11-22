@@ -1,5 +1,3 @@
-extends Node
-
 class_name Deck
 
 var deck_name: String
