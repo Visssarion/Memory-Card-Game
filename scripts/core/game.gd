@@ -20,6 +20,7 @@ var cards_on_board: Array[Card]  # Private var which holds current cards on the 
 var selected_card_a: Card  # Player selected first choice
 var selected_card_b: Card  # Player selected second choice
 
+
 # This method finalizes the game, and throws either in endless mode new cards on the board, or in
 # story 
 func finalize_game() -> void:
@@ -42,12 +43,13 @@ func determine_win() -> void:
 		# Destroy cards? TODO
 		finalize_game()
 
-	var timer = get_timer(timeout)  # Obtain timeout component
-	timer.timeout.connect(set_result_state)  # Connect the finalize method to the timeout
+	var timer = $setTimeout  # Obtain timeout component
+	timer.wait_time = timeout  # Connect the finalize method to the timeout
 	timer.start()  # Start the timeout counting down to execute the method hold by the timer
 
 # Check result state, reset gameloop
 func set_result_state() -> void:
+	print("Here")
 	# Any other gamephase then PICK_B should not trigger this method
 	if gamephase != gamephases.RESULT: return
 	# Reset gamephase to PICK_A so the user is able to make a new selection
@@ -56,13 +58,6 @@ func set_result_state() -> void:
 	if selected_card_a.card_data.name != selected_card_b.card_data.name:
 		selected_card_a.opened = false  # Close cards incase of invalid match
 		selected_card_b.opened = false  # Close cards incase of invalid match
-
-func get_timer(wait_time: int = 5) -> Timer:
-	var timer = get_node("setTimeout")  # Get setTimeout node (Timer)
-	timer.autostart = true  # Make sure it automatically starts
-	timer.one_shot = false  # The timer is allowed to run more then just once
-	timer.wait_time = wait_time  # Set the time before the timer executes its method
-	return timer  # Return the timer element
 
 # Method which executes after card has been clicked
 func on_click(card):
@@ -85,6 +80,7 @@ func _ready():
 	## Duplicate cards
 	card_theme += card_theme  # Make a set of cards (Duplicate them)
 	card_theme.shuffle()  # Shuffle cards
+	$setTimeout.timeout.connect(set_result_state)
 
 	## Instantiate cards to game board from resources
 	for card in card_theme:  # For each card in our Theme
