@@ -11,6 +11,7 @@ class_name CardData
 
 ## Card's image
 @export var image: Texture2D
+@export var image_back: Texture2D
 ## Card's name.
 ## Note that this is a [StringName] field instead of [String]
 ## to speed up '==' calculations.

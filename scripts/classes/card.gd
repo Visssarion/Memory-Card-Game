@@ -49,3 +49,4 @@ func _on_area_2d_mouse_exited():
 
 func update_face():
 	$Image.texture = card_data.image;
+	$BackSide.texture = card_data.image_back;
