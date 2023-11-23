@@ -5,6 +5,7 @@
 
 [node name="GAMECORE" type="Node2D"]
 script = ExtResource("1_2w54b")
+DEBUG = true
 rows = 4
 
 [node name="GameCamera2D" parent="." instance=ExtResource("5_f0b11")]

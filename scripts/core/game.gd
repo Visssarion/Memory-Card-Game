@@ -3,9 +3,19 @@ extends Node
 
 class_name Game
 
+@export_group("DEBUG Settings")
+## When TRUE run game in DEBUG mode[br]
+## [br][code]Should be disabled for production[/code][br][br]
+## The following options are enabled when debug is [b]True[/b]:[br][br]
+## * Onclick timer will be set to 1.[br]
+@export var DEBUG: bool = false
+
 @export_group("Game Settings")
 ## Available gamemodes for the current board
 @export var gamemode: GameSettings.gamemodes = GameSettings.gamemodes.ENDLESS
+## The next scene to load when winning the game[br]
+## [br][code]The board has to be cleared and the gamemode has to be story in order to load a new scene[/code][br][br]
+@export var next_scene: PackedScene
 
 @export_group("Board Settings")
 ## Dynamically set the amount of cards on the board[br]
@@ -45,13 +55,20 @@ func finalize_game() -> void:
 	var closed_cards = cards_on_board.filter(func(card): return not card.opened)
 	# Check if the array is equal or lower then the amount of cards required on the board.
 	if len(closed_cards) <= cards_left_for_win:
-		# TODO, Depending on the gamemmode, we change scene, or add cards for endless mode. Has
-		# to be decided.
+		clear_memory()  # Clear all relevant references
 		if settings.gamemode == GameSettings.gamemodes.STORY:
-			print("DOING STORY ...")  # TODO Scene handler
+			## Obtain current scene
+			progress_story()
 		elif settings.gamemode == GameSettings.gamemodes.ENDLESS:
-			clear_memory()  # Clear all relevant references
 			generate_game()  # Generate new board / new game
+
+## Unloads current scene and loads new scene
+func progress_story():
+	#var root = get_tree().get_root()  # Get root Node
+	#var current_scene = root.get_child(root.get_child_count() - 1)  # Get current scene
+	var new_scene = settings.progress_scene()  # Story Handler
+	add_child(new_scene)  # Configure new scene
+	get_tree().set_current_scene(new_scene)
 
 ## Here we determine the winner of each result phase, runs before reseting the gameloop
 func determine_win() -> void:
@@ -147,9 +164,9 @@ func generate_game():
 	obtain_deck()
 	layout_cards_on_board()
 	render_game_board()
+	$GameCamera2D.update_scale(rows, pixelsize, gridsize)  # Attach camera
 
 func _ready():
-	settings = GameSettings.new(gamemode)  # instantiate game board settings for this scene
+	settings = GameSettings.new(DEBUG, gamemode, next_scene)  # instantiate game board settings for this scene
 	$setTimeout.timeout.connect(set_result_state)  # Connects Timer signal to self.class method
 	generate_game()  # Start game
-	$GameCamera2D.update_scale(rows, pixelsize, gridsize)  # Attach camera
