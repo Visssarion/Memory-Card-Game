@@ -42,7 +42,7 @@ func _on_click_confirm():
 	clicked.emit(self)
 
 func _on_area_2d_mouse_entered():
-	pass
+	$AnimationPlayer.play("shine")
 
 func _on_area_2d_mouse_exited():
 	pass

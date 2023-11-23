@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d2bso26snoipx"]
+
+[ext_resource type="Shader" path="res://shaders/card.gdshader" id="1_t2ef1"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_t2ef1")
+shader_parameter/shine_color = Color(1, 1, 1, 1)
+shader_parameter/shine_progress = 0.0
+shader_parameter/shine_size = 0.1
+shader_parameter/shine_angle = 45.0

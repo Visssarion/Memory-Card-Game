@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dutrwwhtuyb38"]
+[gd_scene load_steps=15 format=3 uid="uid://dutrwwhtuyb38"]
 
 [ext_resource type="Script" path="res://scripts/classes/card.gd" id="1_e5acn"]
 [ext_resource type="Texture2D" uid="uid://xf2nlnshiwh3" path="res://cards/sprites/CardFace.png" id="2_486nd"]
 [ext_resource type="Texture2D" uid="uid://cjwjw6w126p2t" path="res://cards/sprites/CardBack.png" id="2_thq8e"]
+[ext_resource type="Material" uid="uid://d2bso26snoipx" path="res://shaders/card_material.tres" id="3_tpeif"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xajje"]
 size = Vector2(512, 512)
@@ -41,6 +42,18 @@ tracks/2/keys = {
 "handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BackSide:material:shader_parameter/shine_progress")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_x16i8"]
@@ -119,12 +132,48 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.25)
 }
 
+[sub_resource type="Animation" id="Animation_cw6rl"]
+resource_name = "shine"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackSide:material:shader_parameter/shine_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_37kn4"]
 _data = {
 "RESET": SubResource("Animation_ql28q"),
 "card_close": SubResource("Animation_x16i8"),
-"card_open": SubResource("Animation_2e81b")
+"card_open": SubResource("Animation_2e81b"),
+"shine": SubResource("Animation_cw6rl")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gnh5x"]
+animation = &"card_open"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ukmxp"]
+animation = &"shine"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_m7sk4"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_vy8hh"]
+graph_offset = Vector2(-402.71, 124.31)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_ukmxp")
+nodes/Animation/position = Vector2(-120, 160)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_gnh5x")
+"nodes/Animation 2/position" = Vector2(-140, 280)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_m7sk4")
+nodes/OneShot/position = Vector2(80, 160)
+nodes/output/position = Vector2(300, 140)
+node_connections = [&"OneShot", 0, &"Animation 2", &"OneShot", 1, &"Animation"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_e5acn")
@@ -136,9 +185,11 @@ shape = SubResource("RectangleShape2D_xajje")
 debug_color = Color(0.933333, 0, 0.647059, 0.419608)
 
 [node name="BackSide" type="Sprite2D" parent="."]
+material = ExtResource("3_tpeif")
 texture = ExtResource("2_thq8e")
 
 [node name="FaceSide" type="Sprite2D" parent="."]
+material = ExtResource("3_tpeif")
 scale = Vector2(1e-05, 1)
 texture = ExtResource("2_486nd")
 
@@ -149,6 +200,14 @@ scale = Vector2(1e-05, 1)
 libraries = {
 "": SubResource("AnimationLibrary_37kn4")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_vy8hh")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 1
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
