@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bphn6x7kgwesw"]
+
+[ext_resource type="Script" path="res://scripts/core/game.gd" id="1_awk85"]
+[ext_resource type="PackedScene" uid="uid://d4j5pref2n02p" path="res://nodes/scenes/Levels/level_3.tscn" id="2_s7o4h"]
+[ext_resource type="PackedScene" uid="uid://c4pvs8d3svkwb" path="res://nodes/objects/game_camera_2d.tscn" id="3_2iscd"]
+
+[node name="GAMECORE" type="Node2D"]
+script = ExtResource("1_awk85")
+gamemode = 0
+next_scene = ExtResource("2_s7o4h")
+rows = 4
+
+[node name="GameCamera2D" parent="." instance=ExtResource("3_2iscd")]
+
+[node name="setTimeout" type="Timer" parent="."]
+wait_time = 5.0
