@@ -156,6 +156,8 @@ func clear_memory():
 	for item in cards_on_board:
 		remove_child(item)
 		item.queue_free()
+		
+	$GameCamera2D.queue_free()
 	# Clear all references
 	cards_on_board.clear()
 
