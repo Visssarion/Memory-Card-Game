@@ -17,10 +17,11 @@ var opened = false:
 		return opened
 
 func _open_card():
-	$AnimationPlayer.play("card_open")
+	$FlipPlayer.play("open")
+	
 	
 func _close_card():
-	$AnimationPlayer.play("card_close")
+	$FlipPlayer.play("close")
 
 ## Recieves a signal if mouse interacts with a card.
 ## Used to check if card was clicked
@@ -42,11 +43,11 @@ func _on_click_confirm():
 	clicked.emit(self)
 
 func _on_area_2d_mouse_entered():
-	pass
+	$HoverPlayer.play("hover")
 
 func _on_area_2d_mouse_exited():
-	pass
+	$HoverPlayer.play("unhover")
 
 func update_visual():
-	$Image.texture = card_data.image;
-	$BackSide.texture = card_data.image_back;
+	$Sprites/Image.texture = card_data.image;
+	$Sprites/BackSide.texture = card_data.image_back;
