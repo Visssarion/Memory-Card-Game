@@ -25,6 +25,14 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Memory Card Game"
 
+[internationalization]
+
+locale/translation_remaps={
+"res://cards/sprites/thor.png": PackedStringArray("res://translations/THOR_uwu.png:uwu")
+}
+locale/translations=PackedStringArray("res://translations/data.en.translation", "res://translations/data.ru.translation", "res://translations/data.jp.translation", "res://translations/data.au.translation", "res://translations/data.uwu.translation")
+locale/locale_filter_mode=0
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
