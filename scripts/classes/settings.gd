@@ -1,3 +1,5 @@
+extends Resource
+
 class_name GameSettings
 
 @export_group("DEBUG Settings")

@@ -3,19 +3,10 @@ extends Node
 
 class_name Game
 
-@export_group("DEBUG Settings")
-## When TRUE run game in DEBUG mode[br]
-## [br][code]Should be disabled for production[/code][br][br]
-## The following options are enabled when debug is [b]True[/b]:[br][br]
-## * Onclick timer will be set to 1.[br]
-@export var DEBUG: bool = false
 
 @export_group("Game Settings")
-## Available gamemodes for the current board
-@export var gamemode: GameSettings.gamemodes = GameSettings.gamemodes.ENDLESS
-## The next scene to load when winning the game[br]
-## [br][code]The board has to be cleared and the gamemode has to be story in order to load a new scene[/code][br][br]
-@export var next_scene: PackedScene
+## Settings for current level.
+@export var settings: GameSettings
 
 @export_group("Board Settings")
 ## Dynamically set the amount of cards on the board[br]
@@ -40,7 +31,6 @@ enum gamephases {PICK_A, PICK_B, RESULT}  # Available gamestates
 var gamephase: gamephases = gamephases.PICK_A  # Current state of the gameloop
 
 var deck: Deck
-var settings: GameSettings
 var card_theme: Array[CardData]  # Holds card data such as image and name
 var cards_on_board: Array[Card]  # Private var which holds current cards on the board
 var selected_card_a: Card  # Player selected first choice
@@ -170,6 +160,5 @@ func generate_game():
 	$GameCamera2D.update_scale(rows, pixelsize, gridsize)  # Attach camera
 
 func _ready():
-	settings = GameSettings.new(DEBUG, gamemode, next_scene)  # instantiate game board settings for this scene
 	$setTimeout.timeout.connect(set_result_state)  # Connects Timer signal to self.class method
 	generate_game()  # Start game
