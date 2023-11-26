@@ -24,3 +24,7 @@ func fetch():
 	var path: String = "res://cards/resources/Themes/%s" % deck_name  # Format Deck folder location
 	dir_contents(path)  # Iterate over folder content, determine deck
 	return deck  # Return the deck we just created dynamically
+
+func clear():
+	## Clears the current deck references from the game
+	deck = []

@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://bijkeii6n3f5n"]
+
+[ext_resource type="Texture2D" uid="uid://cjwjw6w126p2t" path="res://cards/sprites/CardBack.png" id="1_xxcjj"]
+[ext_resource type="Texture2D" uid="uid://rqlqwg63digw" path="res://cards/sprites/thor.png" id="2_mhi8i"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_eadsj"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_beofv"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UIMenu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="UIMenu"]
+layout_mode = 2
+texture = ExtResource("1_xxcjj")
+
+[node name="Menu" type="CenterContainer" parent="UIMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MenuItems" type="VBoxContainer" parent="UIMenu/Menu"]
+custom_minimum_size = Vector2(350, 450)
+layout_mode = 2
+
+[node name="GameLogo" type="TextureRect" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+texture = ExtResource("2_mhi8i")
+expand_mode = 5
+
+[node name="Title" type="Label" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "Memory: The Game"
+label_settings = SubResource("LabelSettings_eadsj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "You just lost it!"
+label_settings = SubResource("LabelSettings_beofv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Empty" type="Label" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_beofv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="New Game" type="Button" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "New Game"
+
+[node name="Endless Mode" type="Button" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "Endless Mode"
+
+[node name="Empty2" type="Label" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_beofv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="Button" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Credits" type="Button" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "Credits"
+
+[node name="Empty3" type="Label" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_beofv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit" type="Button" parent="UIMenu/Menu/MenuItems"]
+layout_mode = 2
+text = "Exit"

@@ -7,8 +7,6 @@ class_name CardData
 ##
 ## Inherits Resource to make process of making new cards easier
 
-
-
 ## Card's image
 @export var image: Texture2D
 @export var image_back: Texture2D
